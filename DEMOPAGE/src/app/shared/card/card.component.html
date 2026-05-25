@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="card__header">
+    <h3 class="card__title">{{ title }}</h3>
+
+    @if (status) {
+      <span class="card__status" [class]="'card__status--' + status">
+        {{ status }}
+      </span>
+    }
+  </div>
+
+  <p class="card__content">{{ content }}</p>
+
+  <div class="card__actions">
+    <ng-content></ng-content>
+  </div>
+</div>

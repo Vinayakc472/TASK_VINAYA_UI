@@ -1,0 +1,32 @@
+<main class="dashboard">
+  <header class="dashboard__header">
+  <h1>Electrical Systems Validation Dashboard</h1>
+    <p class="dashboard__subtitle">
+      Real-time monitoring of renewable energy test campaigns,
+      grid integration studies, and drivetrain validation systems.
+    </p>
+  </header>
+  <section class="dashboard__grid">
+    @for (card of cards; track card.id) {
+      <app-card
+        [title]="card.title"
+        [content]="card.description"
+        [status]="card.status"
+      >
+        <div class="card-actions">
+          @if (expandedId === card.id) {
+            <p class="detail-panel" role="status">
+              {{ card.details }}
+            </p>
+          }
+
+          <app-button
+            [label]="expandedId === card.id ? 'Hide details' : 'View details'"
+            variant="primary"
+            (clicked)="onViewDetails(card)"
+          />
+        </div>
+      </app-card>
+    }
+  </section>
+</main>

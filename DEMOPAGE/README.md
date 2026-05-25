@@ -1,59 +1,91 @@
-# DEMOPAGE
+# Electrical Systems Validation Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.12.
+A small Angular 21 frontend assignment for the Fraunhofer IWES
+*Working Student – Software Engineering Frontend* role.
 
-## Development server
+Two reusable UI components — `Button` and `Card` — composed into a lightweight
+overview of renewable-energy test campaigns: grid integration, rotor blade,
+and drivetrain validation.
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Run
 
 ```bash
-ng generate component component-name
+npm install
+npm start          # http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Production build:
 
 ```bash
-ng generate --help
+npm run build
 ```
 
-## Building
+## Structure
+src/app/
+├── shared/
+│   ├── button/   ← <app-button>: label, variant, disabled, (clicked)
+│   └── card/     ← <app-card>: title, content, status, <ng-content>
+└── dashboard/    ← demo page composing the two
 
-To build the project run:
+## Components
 
-```bash
-ng build
+### `ButtonComponent`
+
+```html
+<app-button label="View details" variant="primary" (clicked)="onClick()" />
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+| Input      | Type                       | Default     |
+| ---------- | -------------------------- | ----------- |
+| `label`    | `string`                   | `''`        |
+| `variant`  | `'primary' \| 'secondary'` | `'primary'` |
+| `disabled` | `boolean`                  | `false`     |
 
-## Running unit tests
+Emits `clicked: MouseEvent` when activated (suppressed while `disabled`).
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### `CardComponent`
 
-```bash
-ng test
+```html
+<app-card
+  title="Grid Compatibility — FRT Validation"
+  content="Voltage dip simulation and grid recovery validation using the HiL-GridCoP emulator."
+  status="running"
+>
+  <app-button label="View details" (clicked)="onViewDetails(card)" />
+</app-card>
 ```
 
-## Running end-to-end tests
+| Input     | Type                 | Default |
+| --------- | -------------------- | ------- |
+| `title`   | `string`             | `''`    |
+| `content` | `string`             | `''`    |
+| `status`  | `CardStatus \| null` | `null`  |
 
-For end-to-end (e2e) testing, run:
+`CardStatus` = `'passed' | 'running' | 'failed' | 'warning'`.
 
-```bash
-ng e2e
-```
+The card exposes a default `<ng-content>` slot for action elements. It's a
+passive container by design — no card-level click handler — so there is no
+event-bubbling collision with the inner button.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Dashboard
 
-## Additional Resources
+The dashboard shows three validation campaigns drawn from real Fraunhofer IWES
+test infrastructure:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- **Grid Compatibility - FRT Validation** on the *HiL-GridCoP* 44 MVA grid emulator
+- **Rotor Blade Fatigue Test** in the Bremerhaven blade hall
+- **Main Bearing Endurance** at the *Large Bearing Laboratory (LBL)* in Hamburg
+
+Clicking *View details* on a card expands an inline panel with the campaign
+report; clicking again (or opening another card) collapses it. Only one
+panel is open at a time.
+
+## Background image
+
+`src/styles.scss` loads `public/wind.jpg`. 
+
+## Notes
+
+- Angular 21, standalone components, strict TypeScript, modern control
+  flow (`@if`, `@for`).
+- No backend, no routing — campaign data lives in `dashboard.component.ts`.
