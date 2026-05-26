@@ -11,8 +11,7 @@
       <app-card
         [title]="card.title"
         [content]="card.description"
-        [status]="card.status"
-        (cardClicked)="onCardClicked(card)"       
+        [status]="card.status"      
       >
         <div class="card-actions">
           @if (expandedId === card.id) {
