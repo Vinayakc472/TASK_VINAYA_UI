@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input ,EventEmitter,Output} from '@angular/core';
 
 export type CardStatus = 'passed' | 'running' | 'failed' |'warning';
 
@@ -17,4 +17,10 @@ export class CardComponent {
 
   /** Optional status badge. `null` hides the badge entirely. */
   @Input() status: CardStatus | null = null;
+  
+  @Output() cardClicked = new EventEmitter<void>();
+
+  onCardClick(): void {
+    this.cardClicked.emit();
+  }
 }

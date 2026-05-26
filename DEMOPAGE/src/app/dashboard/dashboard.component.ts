@@ -53,7 +53,7 @@ export class DashboardComponent {
 
   expandedId: string | null = null;
 
-  onViewDetails(card: DashboardCard): void {
+  onCardClicked(card: DashboardCard): void {
     this.expandedId = this.expandedId === card.id ? null : card.id;
   }
 }

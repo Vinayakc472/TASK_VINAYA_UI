@@ -12,6 +12,7 @@
         [title]="card.title"
         [content]="card.description"
         [status]="card.status"
+        (cardClicked)="onCardClicked(card)"       
       >
         <div class="card-actions">
           @if (expandedId === card.id) {
@@ -23,7 +24,7 @@
           <app-button
             [label]="expandedId === card.id ? 'Hide details' : 'View details'"
             variant="primary"
-            (clicked)="onViewDetails(card)"
+            (clicked)="onCardClicked(card)"
           />
         </div>
       </app-card>
